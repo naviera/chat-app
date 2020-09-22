@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+<style>
+.form-box {
+  width: 60%;
+  margin: auto;
+  border: 1px solid #0000;
+  padding: 25px;
+  border-radius: 7px;
+  box-shadow: 4px 4px 8px #0000;
+}
+</style>
+<body>
+<br>
+<div class="form-box">
+  <h2 class="title is-2">Nueva sala</h2>
+
+
+<%= form_with(model: sala, local: true) do |form| %>
+  <% if sala.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sala.errors.count, "error") %> prohibited this sala from being saved:</h2>
+
+      <ul>
+        <% sala.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :nombre, class: 'label' %>
+    <%= form.text_field :nombre, autofocus: true, class: 'input' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Crear sala", class: 'button is-link' %>
+  </div>
+<% end %>
+<br>
+<%= link_to 'Volver a salas', salas_path, class: 'button is-success' %>
+</div>
+</body>
+</html>

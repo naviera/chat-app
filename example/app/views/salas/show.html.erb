@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<style>
+.form-box {
+/*  width: 60%;*/
+  margin: auto;
+  border: 1px solid #0000;
+  padding: 25px;
+  border-radius: 7px;
+  box-shadow: 4px 4px 8px #0000;
+  background-color: #c9cde8;
+}
+</style>
+<body>
+<br>
+<h2 class="title is-2">Sala: <%= @sala.nombre %></h2>
+
+
+<% @messages.where(sala_id: @sala.id).each do |message| %>
+	<div class="box" style = "background-color: #d6daf0;">
+		<article class="media">
+	    	<div class="media-content">
+	      		<div class="content">
+	        		<p>
+	          		<strong><%= message.alias %></strong> <small><%= message.created_at %></small>
+	          		<br>
+	          		<%= message.content %>
+	        		</p>
+	      		</div>
+	    	</div>
+		</article>
+	</div>
+<% end %>
+
+<br>
+<div class="form-box">
+	<h2 class="title is-3">Nuevo mensaje</h2>
+	<%= form_with(model: @message, local: true) do |form| %>
+	<% if @message.errors.any? %>
+		<div id="error_explanation">
+		  <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
+
+		  <ul>
+		  <% @message.errors.full_messages.each do |message| %>
+			<li><%= @message %></li>
+		  <% end %>
+		  </ul>
+		</div>
+	  <% end %>
+
+	  <div class="field">
+		<%= form.label :alias, class: 'label' %>
+    	<%= form.text_field :alias, autofocus: true, class: 'input' %>
+	  </div>
+
+	  <div class="field">
+		<%= form.label :content, class: 'label' %>
+		<%= form.text_field :content, class: 'input' %>
+	  </div>
+
+	  <div>
+		<%= form.hidden_field :sala_id, :value => @sala.id%>
+	  </div>
+	  
+	  <div class="actions">
+		<%= form.submit "Publicar mensaje", class: 'button is-link' %>
+	  </div>
+	<% end %>
+</div>
+
+<br>
+
+<%= link_to 'Volver a salas', salas_path, class: 'button is-success' %>
+
+</body>
+</html>
