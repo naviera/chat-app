@@ -53,44 +53,32 @@ services:
     networks:  # Attach the service to one or multiple networks
       - backend
 
-  nginx:
-    image: nginx:1.15-alpine
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./data/nginx:/etc/nginx/conf.d
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-
-    depends_on:
-      - web
-    networks:  # Attach the service to one or multiple networks
-      - backend
-  certbot:
-    image: certbot/certbot
-    restart: unless-stopped
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    networks:  # Attach the service to one or multiple networks
-      - backend
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
-
   # nginx:
-  #   image: nginx:1.13
-  #   container_name: foku-nginx
+  #   image: nginx:1.15-alpine
+  #   restart: unless-stopped
   #   ports:
-  #     "80:80"
+  #     - "80:80"
+  #     - "443:443"
   #   volumes:
-  #     - ./nginx:/etc/nginx.conf.d
+  #     - ./data/nginx:/etc/nginx/conf.d
+  #     - ./data/certbot/conf:/etc/letsencrypt
+  #     - ./data/certbot/www:/var/www/certbot
+  #   command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
   #   depends_on:
   #     - web
-  #   logging:
-  #     driver: none
+  #   networks:  # Attach the service to one or multiple networks
+  #     - backend
+  # certbot:
+  #   image: certbot/certbot
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./data/certbot/conf:/etc/letsencrypt
+  #     - ./data/certbot/www:/var/www/certbot
+  #   networks:  # Attach the service to one or multiple networks
+  #     - backend
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
 
 # Declare the Volumes
 volumes:

@@ -26,6 +26,8 @@ WORKDIR /usr/src/app
 # Install node dependencies
 RUN yarn install
 
+RUN gem install bundler
+
 # Copy Gemfile and Gemfile.lock to image
 # (inside working directory /usr/src/app)
 COPY Gemfile Gemfile.lock ./
